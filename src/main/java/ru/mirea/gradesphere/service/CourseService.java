@@ -45,4 +45,16 @@ public class CourseService {
         }
         courseRepository.deleteById(id);
     }
+
+    public List<Course> getAllCoursesSortedByNameAsc() {
+        return courseRepository.findAllByOrderByNameAsc();
+    }
+
+    public List<Course> getAllCoursesSortedByNameDesc() {
+        return courseRepository.findAllByOrderByNameDesc();
+    }
+
+    public List<Course> searchCoursesByName(String name) {
+        return courseRepository.findAllByNameIgnoreCaseContaining(name);
+    }
 }

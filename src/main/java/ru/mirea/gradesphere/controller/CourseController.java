@@ -41,4 +41,19 @@ public class CourseController {
     public void deleteCourse(@PathVariable Long id) {
         courseService.deleteCourse(id);
     }
+
+    @GetMapping("/sorted_by_name_asc")
+    public List<Course> getAllCoursesSortedByNameAsc() {
+        return courseService.getAllCoursesSortedByNameAsc();
+    }
+
+    @GetMapping("/sorted_by_name_desc")
+    public List<Course> getAllCoursesSortedByNameDesc() {
+        return courseService.getAllCoursesSortedByNameDesc();
+    }
+
+    @GetMapping("/search")
+    public List<Course> searchCoursesByName(@RequestParam String name) {
+        return courseService.searchCoursesByName(name);
+    }
 }
