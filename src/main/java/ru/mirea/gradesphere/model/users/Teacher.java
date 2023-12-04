@@ -9,12 +9,8 @@ import java.util.List;
 
 @Entity
 @Data
-@Table(name = "teachers")
+@DiscriminatorValue("teacher")
 public class Teacher extends User {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
-
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(
             name = "teacher_course",

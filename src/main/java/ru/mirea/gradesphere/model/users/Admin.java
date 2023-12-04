@@ -5,9 +5,6 @@ import lombok.*;
 
 @Entity
 @Data
-@Table(name = "admins")
+@DiscriminatorValue("admin")
 public class Admin extends User {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Long id;
 }
