@@ -5,6 +5,8 @@ import org.springframework.stereotype.Service;
 import ru.mirea.gradesphere.model.Group;
 import ru.mirea.gradesphere.repository.GroupRepository;
 
+import java.util.List;
+
 @Service
 public class GroupService {
 
@@ -13,6 +15,10 @@ public class GroupService {
     @Autowired
     public GroupService(GroupRepository groupRepository) {
         this.groupRepository = groupRepository;
+    }
+
+    public List<Group> getAllGroups(){
+        return groupRepository.findAll();
     }
 
     public Group getGroupById(Long id) {
