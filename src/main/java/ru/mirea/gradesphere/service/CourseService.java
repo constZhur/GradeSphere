@@ -35,7 +35,6 @@ public class CourseService {
         if (!courseRepository.existsById(id)) {
             throw new EntityNotFoundException("Course not found with id: " + id);
         }
-        course.setId(id);
         return courseRepository.save(course);
     }
 

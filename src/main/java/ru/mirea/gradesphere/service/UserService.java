@@ -113,7 +113,6 @@ public class UserService {
             coursesToRemove.removeIf(course -> courseIds.contains(course.getId()));
             ((Teacher) user).setCourses(coursesToRemove);
         }
-
         userRepository.save(user);
     }
 }

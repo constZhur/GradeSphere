@@ -8,7 +8,7 @@ import ru.mirea.gradesphere.service.DepartmentService;
 import java.util.List;
 
 @RestController
-@RequestMapping("/department")
+@RequestMapping("/departments")
 public class DepartmentController {
     private final DepartmentService departmentService;
 
