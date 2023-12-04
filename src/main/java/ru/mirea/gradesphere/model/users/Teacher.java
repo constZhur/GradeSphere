@@ -9,7 +9,7 @@ import java.util.List;
 
 @Entity
 @Data
-@DiscriminatorValue("teacher")
+@DiscriminatorValue("TEACHER")
 public class Teacher extends User {
     @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinTable(

@@ -5,6 +5,6 @@ import lombok.*;
 
 @Entity
 @Data
-@DiscriminatorValue("admin")
+@DiscriminatorValue("ADMIN")
 public class Admin extends User {
 }

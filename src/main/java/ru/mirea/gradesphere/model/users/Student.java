@@ -9,7 +9,7 @@ import java.util.List;
 
 @Entity
 @Data
-@DiscriminatorValue("student")
+@DiscriminatorValue("STUDENT")
 public class Student extends User {
     @ManyToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "group_id")
