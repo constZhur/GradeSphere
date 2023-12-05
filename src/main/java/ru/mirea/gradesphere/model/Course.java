@@ -3,7 +3,7 @@ package ru.mirea.gradesphere.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.Data;
-import ru.mirea.gradesphere.model.users.Teacher;
+import ru.mirea.gradesphere.model.users.*;
 
 import java.util.List;
 
@@ -35,4 +35,26 @@ public class Course {
     @ManyToMany(mappedBy = "courses", cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JsonIgnore
     private List<Teacher> teachers;
+
+    @Column(name = "description")
+    private String description;
+
+    @OneToOne(mappedBy = "course",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true)
+    private CourseMaterial courseMaterial;
+
+//    @PostPersist
+//    private void createCourseMaterial() {
+//        if (courseMaterial == null) {
+//            courseMaterial = new CourseMaterial();
+//            courseMaterial.setCourse(this);
+//        }
+//    }
+
+    @OneToMany(mappedBy = "course",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true)
+    private List<PracticalWork> practicalWorks;
+
 }
