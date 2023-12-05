@@ -5,6 +5,7 @@ import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 import ru.mirea.gradesphere.model.Course;
 import ru.mirea.gradesphere.service.CourseService;
+import ru.mirea.gradesphere.service.FileStorageService;
 
 import java.util.List;
 
@@ -12,10 +13,12 @@ import java.util.List;
 @RequestMapping("/courses")
 public class CourseController {
     private final CourseService courseService;
+    private final FileStorageService fileStorageService;
 
     @Autowired
-    public CourseController(CourseService courseService) {
+    public CourseController(CourseService courseService, FileStorageService fileStorageService) {
         this.courseService = courseService;
+        this.fileStorageService = fileStorageService;
     }
 
     @PreAuthorize("hasAnyAuthority('ADMIN', 'STUDENT', 'TEACHER')")
@@ -38,7 +41,8 @@ public class CourseController {
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @PutMapping("/{id}")
-    public Course updateCourse(@PathVariable(name = "id") Long id, @RequestBody Course course) {
+    public Course updateCourse(@PathVariable(name = "id") Long id,
+                               @RequestBody Course course) {
         return courseService.updateCourse(id, course);
     }
 
@@ -64,5 +68,10 @@ public class CourseController {
     @GetMapping("/search")
     public List<Course> searchCoursesByName(@RequestParam String name) {
         return courseService.searchCoursesByName(name);
+    }
+
+    @GetMapping("/{courseId}/files")
+    public List<String> getAllFilesForCourse(@PathVariable(name = "courseId") Long courseId) {
+        return fileStorageService.getAllFiles(courseId);
     }
 }

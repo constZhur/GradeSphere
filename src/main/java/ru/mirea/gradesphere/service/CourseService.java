@@ -12,10 +12,12 @@ import java.util.List;
 public class CourseService {
 
     private final CourseRepository courseRepository;
+    private final CourseMaterialService courseMaterialService;
 
     @Autowired
-    public CourseService(CourseRepository courseRepository) {
+    public CourseService(CourseRepository courseRepository, CourseMaterialService courseMaterialService) {
         this.courseRepository = courseRepository;
+        this.courseMaterialService = courseMaterialService;
     }
 
     public List<Course> getAllCourses() {
@@ -28,7 +30,10 @@ public class CourseService {
     }
 
     public Course createCourse(Course course) {
-        return courseRepository.save(course);
+        Course savedCourse = courseRepository.save(course);
+        courseMaterialService.createCourseMaterial(savedCourse);
+
+        return savedCourse;
     }
 
     public Course updateCourse(Long id, Course course) {
