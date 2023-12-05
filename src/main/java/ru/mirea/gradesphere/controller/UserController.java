@@ -3,11 +3,13 @@ package ru.mirea.gradesphere.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import ru.mirea.gradesphere.dto.UserDto;
 import ru.mirea.gradesphere.model.users.User;
 import ru.mirea.gradesphere.service.UserService;
 import ru.mirea.gradesphere.utils.Role;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/users")
@@ -22,27 +24,34 @@ public class UserController {
 
     @PreAuthorize("hasAnyAuthority('ADMIN', 'STUDENT', 'TEACHER')")
     @GetMapping("/all")
-    public List<User> getAllUsers() {
-        return userService.getAllUsers();
+    public List<UserDto> getAllUsers() {
+        List<User> users = userService.getAllUsers();
+        return users.stream()
+                .map(this::convertToDto)
+                .collect(Collectors.toList());
     }
 
     @PreAuthorize("hasAnyAuthority('ADMIN', 'STUDENT', 'TEACHER')")
     @GetMapping("/{id}")
-    public User getUserById(@PathVariable(name = "id") Long id) {
-        return userService.getUserById(id);
+    public UserDto getUserById(@PathVariable(name = "id") Long id) {
+        User user = userService.getUserById(id);
+        return convertToDto(user);
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping
-    public User createUser(@RequestBody User user) {
-        return userService.createUser(user);
+    public UserDto createUser(@RequestBody UserDto userDto) {
+        User user = convertToEntity(userDto);
+        User createdUser = userService.createUser(user);
+        return convertToDto(createdUser);
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @PutMapping("/{id}")
-    public User updateUser(@PathVariable(name = "id") Long id,
-                           @RequestBody User user) {
-        return userService.updateUser(id, user);
+    public UserDto updateUser(@PathVariable(name = "id") Long id, @RequestBody UserDto userDto) {
+        User user = convertToEntity(userDto);
+        User updatedUser = userService.updateUser(id, user);
+        return convertToDto(updatedUser);
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
@@ -87,20 +96,54 @@ public class UserController {
 
     @PreAuthorize("hasAnyAuthority('ADMIN', 'STUDENT', 'TEACHER')")
     @GetMapping("/students")
-    public List<User> getStudents() {
-        return userService.getUsersByRole(Role.STUDENT);
+    public List<UserDto> getStudents() {
+        List<User> students = userService.getUsersByRole(Role.STUDENT);
+        return students.stream()
+                .map(this::convertToDto)
+                .collect(Collectors.toList());
     }
 
     @PreAuthorize("hasAnyAuthority('ADMIN', 'STUDENT', 'TEACHER')")
     @GetMapping("/teachers")
-    public List<User> getTeachers() {
-        return userService.getUsersByRole(Role.TEACHER);
+    public List<UserDto> getTeachers() {
+        List<User> teachers = userService.getUsersByRole(Role.TEACHER);
+        return teachers.stream()
+                .map(this::convertToDto)
+                .collect(Collectors.toList());
     }
 
     @PreAuthorize("hasAnyAuthority('ADMIN', 'STUDENT', 'TEACHER')")
     @GetMapping("/admins")
-    public List<User> getAdmins() {
-        return userService.getUsersByRole(Role.ADMIN);
+    public List<UserDto> getAdmins() {
+        List<User> admins = userService.getUsersByRole(Role.ADMIN);
+        return admins.stream()
+                .map(this::convertToDto)
+                .collect(Collectors.toList());
+    }
+
+    private UserDto convertToDto(User user) {
+        return new UserDto(
+                user.getId(),
+                user.getFullName(),
+                user.getEmail(),
+                user.getRole()
+        );
+    }
+
+    private User convertToEntity(UserDto userDto) {
+        User user = new User();
+        user.setId(userDto.getId());
+        String[] names = userDto.getFullName().split(" ", 2);
+        if (names.length > 0) {
+            user.setFirstName(names[0]);
+        }
+        if (names.length > 1) {
+            user.setLastName(names[1]);
+        }
+        user.setEmail(userDto.getEmail());
+        user.setRole(userDto.getRole());
+        return user;
     }
 }
+
 
