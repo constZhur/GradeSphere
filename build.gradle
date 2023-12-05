@@ -30,6 +30,7 @@ dependencies {
     implementation 'io.jsonwebtoken:jjwt-jackson:0.11.2'
     implementation 'org.apache.commons:commons-lang3:3.12.0'
     implementation 'org.hibernate.validator:hibernate-validator:8.0.1.Final'
+    implementation 'javax.persistence:javax.persistence-api:2.2'
     compileOnly 'org.projectlombok:lombok'
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
     runtimeOnly 'com.mysql:mysql-connector-j'
