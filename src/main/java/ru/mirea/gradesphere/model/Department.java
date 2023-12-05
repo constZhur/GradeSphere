@@ -2,8 +2,8 @@ package ru.mirea.gradesphere.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
+import jakarta.validation.constraints.NotBlank;
 import lombok.*;
-import ru.mirea.gradesphere.model.users.Student;
 import ru.mirea.gradesphere.model.users.Teacher;
 
 import java.util.List;
@@ -17,6 +17,7 @@ public class Department {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotBlank(message = "Имя кафедры не должно быть пустым")
     @Column(name = "name")
     private String name;
 

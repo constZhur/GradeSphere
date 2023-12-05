@@ -1,6 +1,8 @@
 package ru.mirea.gradesphere.model.users;
 
 import jakarta.persistence.*;
+
+import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -26,18 +28,27 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    @NotEmpty(message = "Имя не может быть пустым")
+    @Size(max = 255, message = "Имя не должно превосходить длины 255 символов")
     @Column(name = "first_name")
     private String firstName;
 
+    @NotEmpty(message = "Фамилия не может быть пустой")
+    @Size(max = 255, message = "Фамилия не должна превосходить длины 255 символов")
     @Column(name = "last_name")
     private String lastName;
 
+    @NotEmpty(message = "Эл. почта не может быть пустой")
+    @Email(message = "Некорректный формат почты")
     @Column(name = "email", unique = true)
     private String email;
 
+    @NotEmpty(message = "Пароль не может быть пустым")
+    @Size(min = 6, max = 255, message = "Длина пароля должна быть между 6 и 255")
     @Column(name = "password")
     private String password;
 
+    @NotNull(message = "Роль не может быть нулевой")
     @Enumerated(EnumType.STRING)
     @Column(name = "role")
     private Role role;
@@ -79,6 +90,7 @@ public class User implements UserDetails {
         return enabled;
     }
 
+    @Transient
     public String getFullName() {
         return firstName + " " + lastName;
     }
