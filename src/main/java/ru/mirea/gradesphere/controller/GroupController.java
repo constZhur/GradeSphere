@@ -28,7 +28,7 @@ public class GroupController {
 
     @PreAuthorize("hasAnyAuthority('ADMIN', 'STUDENT', 'TEACHER')")
     @GetMapping("/{id}")
-    public Group getGroupById(@PathVariable Long id) {
+    public Group getGroupById(@PathVariable(name = "id") Long id) {
         return groupService.getGroupById(id);
     }
 
@@ -40,13 +40,13 @@ public class GroupController {
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @PutMapping("/{id}")
-    public Group updateGroup(@PathVariable Long id, @RequestBody Group group) {
+    public Group updateGroup(@PathVariable(name = "id") Long id, @RequestBody Group group) {
         return groupService.updateGroup(id, group);
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @DeleteMapping("/{id}")
-    public void deleteGroup(@PathVariable Long id) {
+    public void deleteGroup(@PathVariable(name = "id") Long id) {
         groupService.deleteGroup(id);
     }
 }

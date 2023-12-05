@@ -26,7 +26,7 @@ public class DepartmentController {
 
     @PreAuthorize("hasAnyAuthority('ADMIN', 'STUDENT', 'TEACHER')")
     @GetMapping("/{id}")
-    public Department getDepartmentById(@PathVariable Long id) {
+    public Department getDepartmentById(@PathVariable(name = "id") Long id) {
         return departmentService.getDepartmentById(id);
     }
 
@@ -38,13 +38,13 @@ public class DepartmentController {
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @PutMapping("/{id}")
-    public Department updateDepartment(@PathVariable Long id, @RequestBody Department department) {
+    public Department updateDepartment(@PathVariable(name = "id") Long id, @RequestBody Department department) {
         return departmentService.updateDepartment(id, department);
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @DeleteMapping("/{id}")
-    public void deleteDepartment(@PathVariable Long id) {
+    public void deleteDepartment(@PathVariable(name = "id") Long id) {
         departmentService.deleteDepartment(id);
     }
 }

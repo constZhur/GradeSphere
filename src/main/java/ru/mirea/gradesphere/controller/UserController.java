@@ -28,7 +28,7 @@ public class UserController {
 
     @PreAuthorize("hasAnyAuthority('ADMIN', 'STUDENT', 'TEACHER')")
     @GetMapping("/{id}")
-    public User getUserById(@PathVariable Long id) {
+    public User getUserById(@PathVariable(name = "id") Long id) {
         return userService.getUserById(id);
     }
 
@@ -40,43 +40,48 @@ public class UserController {
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @PutMapping("/{id}")
-    public User updateUser(@PathVariable Long id, @RequestBody User user) {
+    public User updateUser(@PathVariable(name = "id") Long id,
+                           @RequestBody User user) {
         return userService.updateUser(id, user);
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @DeleteMapping("/{id}")
-    public void deleteUser(@PathVariable Long id) {
+    public void deleteUser(@PathVariable(name = "id") Long id) {
         userService.deleteUser(id);
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @PatchMapping("/{id}/change_status")
-    public void toggleUserStatus(@PathVariable Long id) {
+    public void toggleUserStatus(@PathVariable(name = "id") Long id) {
         userService.changeUserStatus(id);
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @PatchMapping("/{studentId}/update_group/{groupId}")
-    public void updateStudentGroup(@PathVariable Long studentId, @PathVariable Long groupId) {
+    public void updateStudentGroup(@PathVariable(name = "studentId") Long studentId,
+                                   @PathVariable(name = "groupId") Long groupId) {
         userService.updateStudentGroup(studentId, groupId);
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @PatchMapping("/{teacherId}/update_department/{departmentId}")
-    public void updateTeacherDepartment(@PathVariable Long teacherId, @PathVariable Long departmentId) {
+    public void updateTeacherDepartment(@PathVariable(name = "teacherId") Long teacherId,
+                                        @PathVariable(name = "departmentId") Long departmentId) {
         userService.updateTeacherDepartment(teacherId, departmentId);
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @PatchMapping("/{userId}/update_courses")
-    public void addOrUpdateCoursesForUser(@PathVariable Long userId, @RequestBody List<Long> courseIds) {
+    public void addOrUpdateCoursesForUser(@PathVariable(name = "userId") Long userId,
+                                          @RequestBody List<Long> courseIds) {
         userService.addOrUpdateCoursesForUser(userId, courseIds);
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @PatchMapping("/{userId}/remove_courses")
-    public void removeCoursesForUser(@PathVariable Long userId, @RequestBody List<Long> courseIds) {
+    public void removeCoursesForUser(@PathVariable(name = "userId") Long userId,
+                                     @RequestBody List<Long> courseIds) {
         userService.removeCoursesForUser(userId, courseIds);
     }
 

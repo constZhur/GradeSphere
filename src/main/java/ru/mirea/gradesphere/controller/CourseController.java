@@ -26,7 +26,7 @@ public class CourseController {
 
     @PreAuthorize("hasAnyAuthority('ADMIN', 'STUDENT', 'TEACHER')")
     @GetMapping("/{id}")
-    public Course getCourseById(@PathVariable Long id) {
+    public Course getCourseById(@PathVariable(name = "id") Long id) {
         return courseService.getCourseById(id);
     }
 
@@ -38,13 +38,13 @@ public class CourseController {
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @PutMapping("/{id}")
-    public Course updateCourse(@PathVariable Long id, @RequestBody Course course) {
+    public Course updateCourse(@PathVariable(name = "id") Long id, @RequestBody Course course) {
         return courseService.updateCourse(id, course);
     }
 
     @PreAuthorize("hasAuthority('ADMIN')")
     @DeleteMapping("/{id}")
-    public void deleteCourse(@PathVariable Long id) {
+    public void deleteCourse(@PathVariable(name = "id") Long id) {
         courseService.deleteCourse(id);
     }
 
